@@ -1,0 +1,10 @@
+# Caddy gets and renews the HTTPS certificate for your domain automatically.
+# Point your domain's A record at the server first, then: sudo cp Caddyfile /etc/caddy/Caddyfile && sudo systemctl reload caddy
+your-domain.com {
+	redir https://www.your-domain.com{uri} permanent
+}
+
+www.your-domain.com {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:4174
+}

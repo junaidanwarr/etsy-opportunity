@@ -1,0 +1,20 @@
+{
+  "_comment": "FICTIONAL test data for local development only. Every title starts with [Sample] and there are no Etsy links. Remove before launch with: npm run clear-samples",
+  "generatedAt": "2026-11-01T06:00:00Z",
+  "products": [
+    { "id": "sample-p1", "title": "[Sample] Printable meal planner bundle", "category": "Paper & party", "shopName": "Sample Paper Studio", "keywords": ["meal planner", "printable", "digital download"], "metrics": { "favorites": 1840, "reviews": 312, "trendScore": 92 }, "discoveredAt": "2026-10-31" },
+    { "id": "sample-p2", "title": "[Sample] Personalised pet portrait mug", "category": "Home & living", "shopName": "Sample Clay Co", "keywords": ["pet portrait", "custom mug", "gift"], "metrics": { "favorites": 960, "reviews": 128, "trendScore": 84 }, "discoveredAt": "2026-10-30" },
+    { "id": "sample-p3", "title": "[Sample] Minimalist birth flower necklace", "category": "Jewelry", "shopName": "Sample Silver Works", "keywords": ["birth flower", "necklace", "minimalist"], "metrics": { "favorites": 2210, "reviews": 540, "trendScore": 88 }, "discoveredAt": "2026-10-29" },
+    { "id": "sample-p4", "title": "[Sample] Halloween scavenger hunt game", "category": "Paper & party", "shopName": "Sample Paper Studio", "keywords": ["halloween", "party game", "kids"], "metrics": { "favorites": 3105, "reviews": 205, "trendScore": 95 }, "discoveredAt": "2026-10-14" },
+    { "id": "sample-p5", "title": "[Sample] Hand-dyed linen napkin set", "category": "Home & living", "shopName": "Sample Loom House", "keywords": ["linen", "napkins", "table decor"], "metrics": { "favorites": 640, "reviews": 77, "trendScore": 71 }, "discoveredAt": "2026-10-28" },
+    { "id": "sample-p6", "title": "[Sample] Notion budget tracker template", "category": "Digital templates", "shopName": "Sample Paper Studio", "keywords": ["notion", "budget", "template"], "metrics": { "favorites": 1420, "reviews": 98, "trendScore": 90 }, "discoveredAt": "2026-11-01" },
+    { "id": "sample-p7", "title": "[Sample] Embroidered initial sweatshirt", "category": "Clothing", "shopName": "Sample Thread Lab", "keywords": ["embroidered", "sweatshirt", "personalised"], "metrics": { "favorites": 1170, "reviews": 260, "trendScore": 79 }, "discoveredAt": "2026-10-05" },
+    { "id": "sample-p8", "title": "[Sample] Wildflower seed paper cards", "category": "Paper & party", "shopName": "Sample Loom House", "keywords": ["seed paper", "eco", "wedding favors"], "metrics": { "favorites": 520, "reviews": 44, "trendScore": 68 }, "discoveredAt": "2026-10-31" }
+  ],
+  "shops": [
+    { "id": "sample-s1", "title": "Sample Paper Studio", "category": "Paper & party", "keywords": ["printables", "planners"], "metrics": { "sales": 12400, "listings": 310, "trendScore": 91 }, "discoveredAt": "2026-10-31" },
+    { "id": "sample-s2", "title": "Sample Clay Co", "category": "Home & living", "keywords": ["ceramics", "custom gifts"], "metrics": { "sales": 3800, "listings": 85, "trendScore": 77 }, "discoveredAt": "2026-10-30" },
+    { "id": "sample-s3", "title": "Sample Loom House", "category": "Home & living", "keywords": ["linen", "eco"], "metrics": { "sales": 2150, "listings": 64, "trendScore": 70 }, "discoveredAt": "2026-10-12" },
+    { "id": "sample-s4", "title": "Sample Silver Works", "category": "Jewelry", "keywords": ["sterling silver", "personalised"], "metrics": { "sales": 9600, "listings": 140, "trendScore": 86 }, "discoveredAt": "2026-10-29" }
+  ]
+}
