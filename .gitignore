@@ -6,3 +6,4 @@ data/
 _old-react-prototype/dist/
 *.log
 *.tsbuildinfo
+.vercel/

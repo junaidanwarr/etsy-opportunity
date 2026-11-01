@@ -4,7 +4,8 @@ The public website for the Etsy Surveillance Radar. Visitors browse trending Ets
 
 The design follows the Kiln template: warm paper tones, Bricolage Grotesque with Newsreader italics, and a slide-in drawer (Kiln's cart) used here as the opportunity list.
 
-- **No build step, no npm dependencies.** Plain Node.js (22.13+ or 24) with its built-in SQLite. Back up one file: `data/foundry.sqlite`.
+- **No build step, one dependency** (`@libsql/client`). Data lives in **Turso** in production (`TURSO_DATABASE_URL`), or in a local SQLite file (`data/foundry.sqlite`) when that isn't set.
+- **Runs on Vercel** (serverless, see **DEPLOY-VERCEL.md**) or as a normal Node server (`npm start`) on any VPS.
 - **Server-rendered pages**, so search engines see real content: meta descriptions, Open Graph tags, canonical URLs, `sitemap.xml`, `robots.txt` and breadcrumb structured data.
 - **Only real Radar data is shown.** Nothing is published until it is approved (or `AUTO_APPROVE=true`), and missing fields stay missing.
 
@@ -32,11 +33,15 @@ The local database currently holds **real research data**: 34 shops and 11 best-
 
 | Path | What it does |
 |---|---|
-| `server.mjs` | Routes, security headers, rate limits, admin sessions, the Radar ingest endpoint |
-| `lib/db.mjs` | SQLite schema, report import (create/update, history, skip reporting), requests |
+| `lib/app.mjs` | The whole site as one request handler: routes, security headers, admin, Radar ingest, email alerts |
+| `server.mjs` | Local / VPS entry (`npm run dev`, `npm start`) |
+| `api/index.mjs`, `vercel.json` | Vercel entry: every non-static path is rewritten to the handler |
+| `lib/db.mjs` | Schema, report import (one atomic batch), requests, plus admin sessions and rate limits stored in the DB |
 | `lib/views.mjs` | All public HTML pages |
-| `public/` | `styles.css`, `app.js` (list drawer + request form), `admin.js`/`admin.css` |
-| `scripts/` | `import-report.mjs` (CLI import), `clear-samples.mjs` |
+| `lib/mail.mjs` | Built-in SMTP client for the email alerts |
+| `public/static/` | `styles.css`, `app.js` (list drawer + request form), `admin.js`/`admin.css` (served by Vercel's CDN) |
+| `scripts/` | `import-report.mjs` (CLI import), `clear-samples.mjs`, `migrate-to-turso.mjs` |
+| `DEPLOY-VERCEL.md` | **Step-by-step Vercel + Turso deployment** |
 | `RADAR-INTEGRATION.md` | **How the Radar sends reports**, plus the field reference |
 | `deploy/` | Caddy (HTTPS) and systemd files |
 | `_old-react-prototype/` | The earlier React mock-up, kept for reference; not used |
@@ -64,7 +69,9 @@ Why `premium164.web-hosting.com` and not `mail.100daysforai.com`: the domain use
 
 ## Deploy on your own domain
 
-Any small Linux VPS works (1 vCPU / 1 GB RAM is plenty). The example below uses Ubuntu.
+**Vercel + Turso (free tiers):** follow **DEPLOY-VERCEL.md**.
+
+**Or a VPS:** any small Linux VPS works (1 vCPU / 1 GB RAM is plenty). The example below uses Ubuntu.
 
 1. Point your domain's DNS **A record** (and `www`) at the server's IP.
 2. Install Node 24 and Caddy:
@@ -85,7 +92,7 @@ Any small Linux VPS works (1 vCPU / 1 GB RAM is plenty). The example below uses 
    ```
    (Edit the domain in the Caddyfile first.)
 6. Give the Radar the URL `https://www.your-domain.com/api/radar/reports` and the token.
-7. Back up `data/foundry.sqlite` daily, for example: `sqlite3 data/foundry.sqlite ".backup backup-$(date +%F).sqlite"`.
+7. Back up `data/foundry.sqlite` daily (e.g. `sqlite3 data/foundry.sqlite ".backup backup-$(date +%F).sqlite"`), or set `TURSO_DATABASE_URL` and let Turso hold the data.
 8. Optional: add an uptime monitor on `https://www.your-domain.com/api/health` that alerts when `radarStale` is `true`.
 
 To update later, copy the new files over and run `sudo systemctl restart foundry`. The database schema is created automatically.
@@ -98,4 +105,4 @@ To update later, copy the new files over and run `sudo systemctl restart foundry
 - Headers: a strict Content-Security-Policy (no inline scripts), `X-Frame-Options: DENY`, `nosniff`, and HSTS in production.
 - The footer states that the site is independent of Etsy, Inc., and that trends are not a promise of sales.
 
-Sessions live in memory, so restarting the server signs admins out. That's fine for a small team; switch to a sessions table if you ever run several server instances.
+Admin sessions and rate-limit counters are stored in the database (hashed tokens only), so they work across Vercel's short-lived instances and server restarts.

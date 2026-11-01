@@ -1,16 +1,22 @@
 {
   "name": "etsy-opportunity",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "Public Etsy trend-discovery site fed by the Etsy Surveillance Radar, with shortlist, workflow requests and admin.",
-  "engines": { "node": ">=22.13" },
+  "engines": {
+    "node": ">=20.12"
+  },
   "scripts": {
-    "start": "node --disable-warning=ExperimentalWarning server.mjs",
-    "dev": "node --disable-warning=ExperimentalWarning --watch server.mjs",
-    "import": "node --disable-warning=ExperimentalWarning scripts/import-report.mjs",
-    "load-research": "node --disable-warning=ExperimentalWarning scripts/import-report.mjs samples/research-batch-12.json",
-    "load-samples":"node --disable-warning=ExperimentalWarning scripts/import-report.mjs samples/sample-report.json",
-    "clear-samples": "node --disable-warning=ExperimentalWarning scripts/clear-samples.mjs"
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "import": "node scripts/import-report.mjs",
+    "load-research": "node scripts/import-report.mjs samples/research-batch-12.json",
+    "load-samples": "node scripts/import-report.mjs samples/sample-report.json",
+    "clear-samples": "node scripts/clear-samples.mjs",
+    "migrate-to-turso": "node scripts/migrate-to-turso.mjs"
+  },
+  "dependencies": {
+    "@libsql/client": "0.15.15"
   }
 }
