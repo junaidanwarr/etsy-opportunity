@@ -10,6 +10,24 @@
   document.querySelectorAll('.rv').forEach(el => io ? io.observe(el) : el.classList.add('in'))
   setTimeout(() => document.querySelectorAll('.rv:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in') }), 400)
 
+  /* Rotate published keyword labels without duplicates or extra network calls. */
+  const radarLabels = document.querySelector('.radar-keywords')
+  if (radarLabels && !reduce) {
+    let pool = []
+    try { pool = JSON.parse(radarLabels.dataset.radarPool) } catch {}
+    const labels = [...radarLabels.querySelectorAll('.radar-keyword')]
+    if (labels.length && pool.length > labels.length) setInterval(() => {
+      if (document.hidden) return
+      const visible = new Set(labels.map(el => el.querySelector('span').textContent))
+      const available = pool.filter(title => !visible.has(title))
+      if (!available.length) return
+      const el = labels[Math.floor(Math.random() * labels.length)]
+      const title = available[Math.floor(Math.random() * available.length)]
+      el.classList.add('changing')
+      setTimeout(() => { el.querySelector('span').textContent = title; el.classList.remove('changing') }, 250)
+    }, 2800)
+  }
+
   /* ---------- Shortlist storage ---------- */
   let list = []
   try { list = JSON.parse(localStorage.getItem(KEY) || '[]').filter(i => i && typeof i.id === 'string').slice(0, 50) } catch { list = [] }
