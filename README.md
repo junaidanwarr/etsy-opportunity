@@ -117,3 +117,5 @@ To replace the list each week, create a JSON file such as:
 Run `npm run update-keywords -- path/to/keywords.json` from this project. It updates Turso when configured in .env; otherwise it updates the local database. This publishes the supplied list immediately and records its update date. There is no automatic weekly job until a data source is connected.
 
 Two video slots appear on the home workflow section and /request. Set WORKFLOW_VIDEO_1_URL and WORKFLOW_VIDEO_2_URL in Vercel, then redeploy. Accepted formats: HTTPS YouTube watch/share links or direct HTTPS .mp4 URLs. Unconfigured slots say Coming soon. Videos load without autoplay. No domain or Radar connection changes are required.
+
+The keyword list from Google Sheet batch 9 is saved in samples/keywords-batch-9.json (61 terms, excluding 15 researcher observations). Reload it with: npm run update-keywords -- samples/keywords-batch-9.json. This import changes keywords only; it does not add or change shops.

@@ -1,0 +1,555 @@
+{
+  "source": "https://docs.google.com/spreadsheets/d/1T70GvcZurp16GPjdGdh-aKcPdHwd3uei2HbKKULw2Bg/edit?gid=1253022373",
+  "keywords": [
+    "author planners",
+    "undated",
+    "Goodnotes",
+    "Happy Planner inserts",
+    "editable",
+    "bundles",
+    "multi-year",
+    "hyperlinked",
+    "editable Canva",
+    "household bundles",
+    "Licensed-style characters",
+    "watercolor",
+    "Trend characters",
+    "Watercolor princess",
+    "Kawaii anime",
+    "Birthday graphics",
+    "Seasonal vector",
+    "seasonal",
+    "Niche sport",
+    "Niche whole-shop",
+    "Service-business",
+    "Niche",
+    "Niche bundles",
+    "Trend",
+    "Pro niche",
+    "Mockups",
+    "Seller tools",
+    "Wedding binder",
+    "Canva",
+    "Themed kids parties",
+    "Licensed-themed",
+    "Accessory niche",
+    "Full suites",
+    "Niche sports",
+    "Character bundles",
+    "Cricut keyword",
+    "Laser niche",
+    "Cricut",
+    "Silhouette",
+    "Big bundles",
+    "Curriculum",
+    "Faith niche",
+    "Subject-specific",
+    "Faith",
+    "Themed packs",
+    "Niche community",
+    "whole-shop",
+    "Binder planner",
+    "Whole-shop pass",
+    "Pre-cropped",
+    "Notability",
+    "Sticker designs",
+    "Wedding Google Sheets",
+    "Aesthetic student",
+    "Professional niche",
+    "Budget",
+    "debt",
+    "Budget Sheets",
+    "Simple trackers",
+    "Small-business",
+    "ADHD niche"
+  ],
+  "research": [
+    {
+      "shop": "HeartBreathings",
+      "category": "PRINTABLE PLANNERS & TRACKERS",
+      "keywords": [
+        "author planners",
+        "undated",
+        "Goodnotes"
+      ]
+    },
+    {
+      "shop": "RhoroDesigns",
+      "category": "PRINTABLE PLANNERS & TRACKERS",
+      "keywords": [
+        "Happy Planner inserts",
+        "editable",
+        "bundles"
+      ]
+    },
+    {
+      "shop": "EverythingPrintable1",
+      "category": "PRINTABLE PLANNERS & TRACKERS",
+      "keywords": [
+        "multi-year",
+        "hyperlinked",
+        "Goodnotes"
+      ]
+    },
+    {
+      "shop": "DesignStudioTeti",
+      "category": "PRINTABLE PLANNERS & TRACKERS",
+      "keywords": [
+        "editable Canva",
+        "household bundles"
+      ]
+    },
+    {
+      "shop": "CandyAppleExpress",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Licensed-style characters",
+        "watercolor"
+      ]
+    },
+    {
+      "shop": "TheTwilightCove",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Trend characters"
+      ]
+    },
+    {
+      "shop": "DownloadDreamsArt",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "New shop",
+        "count in title"
+      ]
+    },
+    {
+      "shop": "Artstudio611",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Fast growth"
+      ]
+    },
+    {
+      "shop": "EvvaDigitalStore",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Watercolor princess"
+      ]
+    },
+    {
+      "shop": "StylethreadsCrafts",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Kawaii anime"
+      ]
+    },
+    {
+      "shop": "TpBack",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Whole-shop upsell"
+      ]
+    },
+    {
+      "shop": "MeerDigitalDesign",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Birthday graphics"
+      ]
+    },
+    {
+      "shop": "ClipArtByKiki",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Seasonal vector"
+      ]
+    },
+    {
+      "shop": "NexaPrintable",
+      "category": "CLIPART & PNG BUNDLES",
+      "keywords": [
+        "Huge counts",
+        "seasonal"
+      ]
+    },
+    {
+      "shop": "SoccerProInna",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Niche sport"
+      ]
+    },
+    {
+      "shop": "PureFormDecorStudio",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "High-priced kits"
+      ]
+    },
+    {
+      "shop": "TheAgentSiteShop",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Niche whole-shop"
+      ]
+    },
+    {
+      "shop": "Bylavendercreations",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Service-business"
+      ]
+    },
+    {
+      "shop": "Realestatetemplateco",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Niche"
+      ]
+    },
+    {
+      "shop": "SeasonSuiteSports",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Niche bundles"
+      ]
+    },
+    {
+      "shop": "Dinonsense",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Trend"
+      ]
+    },
+    {
+      "shop": "BorgoniaDigitals",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Pro niche"
+      ]
+    },
+    {
+      "shop": "Themoodyhaus",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Mockups"
+      ]
+    },
+    {
+      "shop": "ZCDigitalStudio",
+      "category": "CANVA / SOCIAL MEDIA TEMPLATES",
+      "keywords": [
+        "Seller tools"
+      ]
+    },
+    {
+      "shop": "MyDigitalDarling",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Wedding binder",
+        "Canva"
+      ]
+    },
+    {
+      "shop": "CreativeUnionDesign",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Huge catalog"
+      ]
+    },
+    {
+      "shop": "Filterity",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Unique product"
+      ]
+    },
+    {
+      "shop": "EventsByAnn",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Themed kids parties"
+      ]
+    },
+    {
+      "shop": "SweetSparkInvites",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Licensed-themed",
+        "low price"
+      ]
+    },
+    {
+      "shop": "PartyHavensCo",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Accessory niche"
+      ]
+    },
+    {
+      "shop": "StudioStuddard",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Full suites"
+      ]
+    },
+    {
+      "shop": "ElouraTypeID",
+      "category": "INVITATIONS & WEDDING TEMPLATES",
+      "keywords": [
+        "Brand-new",
+        "weak example"
+      ]
+    },
+    {
+      "shop": "TrulySVG",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Niche sports",
+        "low price"
+      ]
+    },
+    {
+      "shop": "DesignsUsDream",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Character bundles"
+      ]
+    },
+    {
+      "shop": "Mischiefsden",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Trend-jacking"
+      ]
+    },
+    {
+      "shop": "CreativliveShop",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Higher price niche"
+      ]
+    },
+    {
+      "shop": "DISASHOPSVG",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Cricut keyword"
+      ]
+    },
+    {
+      "shop": "Lamabrama",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Laser niche"
+      ]
+    },
+    {
+      "shop": "SVGbyAudreyGrace",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Cricut",
+        "Silhouette"
+      ]
+    },
+    {
+      "shop": "CreativeArtCraftsCo",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Seasonal",
+        "lower rating"
+      ]
+    },
+    {
+      "shop": "ClicksStudioArt",
+      "category": "SVG & CUT FILES",
+      "keywords": [
+        "Seasonal"
+      ]
+    },
+    {
+      "shop": "PrintableDandelion",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Big bundles"
+      ]
+    },
+    {
+      "shop": "Theprekmama",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Curriculum"
+      ]
+    },
+    {
+      "shop": "AMESeedsofFaithShop",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Faith niche"
+      ]
+    },
+    {
+      "shop": "WonderPrep",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "New",
+        "seasonal"
+      ]
+    },
+    {
+      "shop": "LearningLuxePrints",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Subject-specific"
+      ]
+    },
+    {
+      "shop": "LIVEINGRACESHOP",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Faith",
+        "seasonal"
+      ]
+    },
+    {
+      "shop": "TheCreativePrintAu",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Themed packs"
+      ]
+    },
+    {
+      "shop": "JWDigitalPrintCo",
+      "category": "KIDS WORKSHEETS & COLORING PAGES",
+      "keywords": [
+        "Niche community"
+      ]
+    },
+    {
+      "shop": "CreativeDreamersCo",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Goodnotes",
+        "whole-shop"
+      ]
+    },
+    {
+      "shop": "PlanningToProsper",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Binder planner"
+      ]
+    },
+    {
+      "shop": "TheDigitalMediaCo",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Whole-shop pass"
+      ]
+    },
+    {
+      "shop": "StillPlannerCo",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Low price"
+      ]
+    },
+    {
+      "shop": "DigitalAgendaCo",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Pre-cropped",
+        "Goodnotes"
+      ]
+    },
+    {
+      "shop": "Milamaluplanners",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Goodnotes",
+        "Notability"
+      ]
+    },
+    {
+      "shop": "Honeydesignclub",
+      "category": "DIGITAL STICKERS & GOODNOTES PLANNERS",
+      "keywords": [
+        "Sticker designs"
+      ]
+    },
+    {
+      "shop": "Tinacreativeco",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Wedding Google Sheets"
+      ]
+    },
+    {
+      "shop": "Growthwithelsa",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Aesthetic student"
+      ]
+    },
+    {
+      "shop": "WiseSpreadsheetsShop",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Professional niche"
+      ]
+    },
+    {
+      "shop": "HayeCreativesCo",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Budget",
+        "debt"
+      ]
+    },
+    {
+      "shop": "MasterMoneyBudget",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Budget Sheets"
+      ]
+    },
+    {
+      "shop": "OpulentPlanners",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Simple trackers"
+      ]
+    },
+    {
+      "shop": "SerenatasJourney",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "Small-business"
+      ]
+    },
+    {
+      "shop": "Heart2HeartbyYoli",
+      "category": "SPREADSHEET & NOTION TEMPLATES",
+      "keywords": [
+        "ADHD niche"
+      ]
+    }
+  ],
+  "excludedResearchNotes": [
+    "New shop",
+    "count in title",
+    "Fast growth",
+    "Whole-shop upsell",
+    "Huge counts",
+    "High-priced kits",
+    "Huge catalog",
+    "Unique product",
+    "low price",
+    "Brand-new",
+    "weak example",
+    "Trend-jacking",
+    "Higher price niche",
+    "lower rating",
+    "New"
+  ]
+}
