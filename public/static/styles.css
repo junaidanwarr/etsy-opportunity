@@ -73,13 +73,17 @@ h2 { font-weight: 300; font-size: clamp(34px, 4.4vw, 64px); letter-spacing: -.04
 .radar b:nth-of-type(1) { inset: 16%; } .radar b:nth-of-type(2) { inset: 32%; } .radar b:nth-of-type(3) { inset: 46%; background: var(--clay); border: 0; box-shadow: 0 0 30px rgba(200,103,60,.6); }
 .radar i { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, rgba(200,103,60,.35), transparent 22%); animation: sweep 5s linear infinite; }
 @keyframes sweep { to { transform: rotate(360deg); } }
-/* Compact radar labels: five rows fit inside the stage, including phones. */
-.radar-keywords { position:absolute; inset:78px 20px 38px; z-index:2; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(5,minmax(0,1fr)); gap:12px 10px; align-content:center; }
-.radar-keyword { display:flex; align-items:center; gap:6px; min-width:0; padding:7px 9px; border:1px solid rgba(121,90,69,.18); border-radius:10px; background:rgba(249,245,238,.94); box-shadow:0 4px 12px rgba(60,40,20,.08); font-size:clamp(10px,.85vw,12px); line-height:1.25; transition:opacity .25s; }
-.radar-keyword svg { flex:0 0 18px; width:18px; height:18px; color:var(--clay); }
-.radar-keyword span { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; overflow-wrap:anywhere; }
+/* Plain scan labels leave the sweep and rings visible. */
+.stage .radar { width:min(84%,500px); border-color:rgba(121,90,69,.32); }
+.stage .radar b { border-color:rgba(121,90,69,.3); }
+.radar-keywords { position:absolute; top:50%; left:5%; right:5%; height:min(70%,400px); transform:translateY(-50%); z-index:2; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(5,minmax(0,1fr)); align-items:center; gap:8px 14px; pointer-events:none; }
+.radar-keyword { min-width:0; justify-self:center; max-width:100%; padding:0; border:0; background:none; box-shadow:none; color:#553d2d; font-size:clamp(11px,1vw,14px); line-height:1.3; text-align:center; transition:opacity .45s; }
+.radar-keyword:nth-child(3n + 2) { transform:translateY(-14px); }
+.radar-keyword span { display:block; overflow-wrap:anywhere; animation:scan-word 12s ease-in-out infinite; animation-delay:var(--phase); }
 .radar-keyword.changing { opacity:0; }
-@media(max-width:460px) { .radar-keywords { inset:72px 12px 24px; gap:8px 6px; } .radar-keyword { padding:5px 6px; gap:4px; font-size:10px; } .radar-keyword svg { flex-basis:14px; width:14px; height:14px; } }
+@keyframes scan-word { 0%,100% { opacity:0; } 18%,65% { opacity:.95; } 85% { opacity:0; } }
+@media(max-width:460px) { .radar-keywords { left:4%; right:4%; height:65%; gap:8px; } .radar-keyword { font-size:11px; } }
+@media(prefers-reduced-motion:reduce) { .radar-keyword span { animation:none; opacity:1; } }
 
 .marquee { border-block: 1px solid var(--line); overflow: hidden; padding: 16px 0; background: var(--paper); }
 .marquee .track { display: flex; gap: 44px; width: max-content; animation: slide 36s linear infinite; font-size: 17px; white-space: nowrap; }
