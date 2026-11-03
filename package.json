@@ -14,7 +14,8 @@
     "load-research": "node scripts/import-report.mjs samples/research-batch-12.json",
     "load-samples": "node scripts/import-report.mjs samples/sample-report.json",
     "clear-samples": "node scripts/clear-samples.mjs",
-    "migrate-to-turso": "node scripts/migrate-to-turso.mjs"
+    "migrate-to-turso": "node scripts/migrate-to-turso.mjs",
+    "update-keywords": "node scripts/update-keywords.mjs"
   },
   "dependencies": {
     "@libsql/client": "0.15.15"

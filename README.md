@@ -106,3 +106,14 @@ To update later, copy the new files over and run `sudo systemctl restart foundry
 - The footer states that the site is independent of Etsy, Inc., and that trends are not a promise of sales.
 
 Admin sessions and rate-limit counters are stored in the database (hashed tokens only), so they work across Vercel's short-lived instances and server restarts.
+
+## Weekly keywords and workflow videos
+The public navigation is Shops, then Keywords. Keywords initially come from the existing research tags. Counts show shops in the published research, not Etsy search volume. Legacy product records remain in storage for compatibility.
+
+To replace the list each week, create a JSON file such as:
+```json
+{"keywords":["watercolor clipart","crochet pattern","wedding invitation"]}
+```
+Run `npm run update-keywords -- path/to/keywords.json` from this project. It updates Turso when configured in .env; otherwise it updates the local database. This publishes the supplied list immediately and records its update date. There is no automatic weekly job until a data source is connected.
+
+Two video slots appear on the home workflow section and /request. Set WORKFLOW_VIDEO_1_URL and WORKFLOW_VIDEO_2_URL in Vercel, then redeploy. Accepted formats: HTTPS YouTube watch/share links or direct HTTPS .mp4 URLs. Unconfigured slots say Coming soon. Videos load without autoplay. No domain or Radar connection changes are required.

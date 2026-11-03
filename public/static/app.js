@@ -19,12 +19,12 @@
   const body = document.body, drawer = $('#drawer'), itemsEl = $('#listItems'), countEl = $('#listCount')
   let lastFocus = null
   const thumb = i => i.image ? `<img src="${esc(i.image)}" alt="" referrerpolicy="no-referrer" loading="lazy">` : `<svg viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10" fill="#e9d8c4"/><circle cx="5" cy="4.6" r="2.3" fill="#c8673c"/></svg>`
-  const href = i => `/${i.kind === 'shop' ? 'shops' : 'products'}/${encodeURIComponent(i.id)}`
-  const row = i => `<div class="item"><a class="thumb" href="${href(i)}">${thumb(i)}</a><div><a href="${href(i)}"><b>${esc(i.title)}</b></a><small>${i.kind === 'shop' ? 'Shop' : 'Product'}${i.category ? ' · ' + esc(i.category) : ''}</small></div><button type="button" class="rm" data-remove="${esc(i.id)}" aria-label="Remove ${esc(i.title)}">×</button></div>`
+  const href = i => `/${i.kind === 'shop' ? 'shops' : 'keywords'}/${encodeURIComponent(i.id)}`
+  const row = i => `<div class="item"><a class="thumb" href="${href(i)}">${thumb(i)}</a><div><a href="${href(i)}"><b>${esc(i.title)}</b></a><small>${i.kind === 'shop' ? 'Shop' : 'Keyword'}${i.category ? ' · ' + esc(i.category) : ''}</small></div><button type="button" class="rm" data-remove="${esc(i.id)}" aria-label="Remove ${esc(i.title)}">×</button></div>`
 
   function render() {
     if (countEl) countEl.textContent = list.length
-    if (itemsEl) itemsEl.innerHTML = list.length ? list.map(row).join('') : '<p class="empty-list">Your list is empty.<br>Tap ♡ on any product or shop to save it here.</p>'
+    if (itemsEl) itemsEl.innerHTML = list.length ? list.map(row).join('') : '<p class="empty-list">Your list is empty.<br>Tap ♡ on any shop or keyword to save it here.</p>'
     const cta = $('#listCta'); if (cta) cta.textContent = list.length ? `Get a workflow for ${list.length} pick${list.length > 1 ? 's' : ''}` : 'Get your startup workflow'
     document.querySelectorAll('[data-save]').forEach(b => {
       let d; try { d = JSON.parse(b.dataset.save) } catch { return }
