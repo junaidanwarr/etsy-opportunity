@@ -1,7 +1,12 @@
 // Public site behaviour: reveal-on-scroll, the shortlist drawer (stored in this browser only) and the request form.
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-  const KEY = 'foundry-list'
+  const KEY = 'etsscope-list'
+  try { // one-time carry-over of lists saved under the site's old name (Foundry)
+    const old = localStorage.getItem('foundry-list')
+    if (old && !localStorage.getItem(KEY)) localStorage.setItem(KEY, old)
+    if (old) localStorage.removeItem('foundry-list')
+  } catch {}
   const $ = (s, el = document) => el.querySelector(s)
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 

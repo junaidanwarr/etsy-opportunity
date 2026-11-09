@@ -1,4 +1,4 @@
-# Foundry: Etsy trend discovery site
+# Etsscope: Etsy trend discovery site
 
 The public website for the Etsy Surveillance Radar. Visitors browse trending Etsy products and shops, save the ones they like to a list (no account needed), and send that list to your team as a **startup workflow request**. Your team reviews Radar reports, publishes discoveries and works through requests in a small admin area.
 
@@ -56,7 +56,7 @@ The local database currently holds **real research data**: 34 shops and 11 best-
 2. New discoveries wait in *Admin → Discoveries*. Publish them, feature the best ones on the home page, add an optional public note.
 3. Visitors browse, filter, and tap ♡ to save products and shops (stored in their browser).
 4. They open their list and choose **Get your startup workflow**: name, contact method (Email, WhatsApp or Phone), contact detail, goals, consent.
-5. The server stores the request with its current titles and Etsy links (it re-checks each item, so a visitor can't inject fake selections), shows a reference such as `FD-7K3QX`, and optionally pings your team webhook.
+5. The server stores the request with its current titles and Etsy links (it re-checks each item, so a visitor can't inject fake selections), shows a reference such as `ES-7K3QX`, and optionally pings your team webhook.
 6. In *Admin → Requests* your team sees the picks, contacts the visitor in one click (mailto / WhatsApp / tel), keeps internal notes and moves the status from new → reviewing → contacted → completed.
 
 ## Email alerts for new requests
@@ -78,14 +78,14 @@ Why `premium164.web-hosting.com` and not `mail.100daysforai.com`: the domain use
    ```bash
    curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash - && sudo apt install -y nodejs caddy
    ```
-3. Copy the project to `/opt/foundry` (without `node_modules`, `data/` or `_old-react-prototype/`) and create the service user:
+3. Copy the project to `/opt/etsscope` (without `node_modules`, `data/` or `_old-react-prototype/`) and create the service user:
    ```bash
-   sudo useradd --system --home /opt/foundry foundry && sudo mkdir -p /opt/foundry/data && sudo chown -R foundry /opt/foundry
+   sudo useradd --system --home /opt/etsscope etsscope && sudo mkdir -p /opt/etsscope/data && sudo chown -R etsscope /opt/etsscope
    ```
-4. Create `/opt/foundry/.env` from `.env.example` with `NODE_ENV=production`, your `SITE_URL`, contact details, `TRUST_PROXY=true`, and **new** long random values for `ADMIN_PASSWORD` and `RADAR_INGEST_TOKEN`. The server refuses to start in production with short ones.
+4. Create `/opt/etsscope/.env` from `.env.example` with `NODE_ENV=production`, your `SITE_URL`, contact details, `TRUST_PROXY=true`, and **new** long random values for `ADMIN_PASSWORD` and `RADAR_INGEST_TOKEN`. The server refuses to start in production with short ones.
 5. Install the service and HTTPS:
    ```bash
-   sudo cp deploy/foundry.service /etc/systemd/system/ && sudo systemctl enable --now foundry
+   sudo cp deploy/etsscope.service /etc/systemd/system/ && sudo systemctl enable --now etsscope
    ```
    ```bash
    sudo cp deploy/Caddyfile /etc/caddy/Caddyfile && sudo systemctl reload caddy
@@ -95,7 +95,7 @@ Why `premium164.web-hosting.com` and not `mail.100daysforai.com`: the domain use
 7. Back up `data/foundry.sqlite` daily (e.g. `sqlite3 data/foundry.sqlite ".backup backup-$(date +%F).sqlite"`), or set `TURSO_DATABASE_URL` and let Turso hold the data.
 8. Optional: add an uptime monitor on `https://www.your-domain.com/api/health` that alerts when `radarStale` is `true`.
 
-To update later, copy the new files over and run `sudo systemctl restart foundry`. The database schema is created automatically.
+To update later, copy the new files over and run `sudo systemctl restart etsscope`. The database schema is created automatically.
 
 ## Security notes
 

@@ -1,20 +1,20 @@
 # systemd unit: keeps the site running and restarts it after crashes or reboots.
-# sudo cp foundry.service /etc/systemd/system/ && sudo systemctl enable --now foundry
+# sudo cp etsscope.service /etc/systemd/system/ && sudo systemctl enable --now etsscope
 [Unit]
-Description=Foundry Etsy discovery site
+Description=Etsscope Etsy discovery site
 After=network.target
 
 [Service]
 Type=simple
-User=foundry
-WorkingDirectory=/opt/foundry
+User=etsscope
+WorkingDirectory=/opt/etsscope
 ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning server.mjs
 Restart=always
 RestartSec=3
 Environment=NODE_ENV=production
 NoNewPrivileges=true
 ProtectSystem=strict
-ReadWritePaths=/opt/foundry/data
+ReadWritePaths=/opt/etsscope/data
 ProtectHome=true
 PrivateTmp=true
 

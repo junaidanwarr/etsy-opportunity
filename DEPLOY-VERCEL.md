@@ -1,9 +1,9 @@
-# Deploying Foundry on Vercel + Turso (free tiers)
+# Deploying Etsscope on Vercel + Turso (free tiers)
 
 Vercel runs the site and Turso stores the data. Both free tiers are far above what this site needs.
 Budget about 20 minutes. You need your GitHub login and the values in your local `.env`.
 
-> **Heads-up on Vercel's free (Hobby) plan:** its terms allow personal, **non-commercial** use only. Foundry sells
+> **Heads-up on Vercel's free (Hobby) plan:** its terms allow personal, **non-commercial** use only. Etsscope sells
 > workflows, so for a live business Vercel expects the Pro plan ($20/month). The free plan is fine for setting up
 > and testing. Nothing in the code changes if you upgrade later.
 
@@ -49,7 +49,7 @@ This moves the 34 research shops, 11 products, team notes and featured picks fro
 
    | Name | Value |
    |---|---|
-   | `SITE_NAME` | `Foundry` |
+   | `SITE_NAME` | `Etsscope` |
    | `SITE_URL` | leave empty for now (set in Step 5) |
    | `CONTACT_EMAIL` | `team@100daysforai.com` |
    | `CONTACT_WHATSAPP` | `+92 311 3150345` |
@@ -62,7 +62,7 @@ This moves the 34 research shops, 11 products, team notes and featured picks fro
    | `NEW_DAYS` | `7` |
    | `STALE_AFTER_HOURS` | `36` |
    | `NOTIFY_EMAIL` | `team@100daysforai.com` |
-   | `MAIL_FROM` | `Foundry <team@100daysforai.com>` |
+   | `MAIL_FROM` | `Etsscope <team@100daysforai.com>` |
    | `SMTP_HOST` | `premium164.web-hosting.com` |
    | `SMTP_PORT` | `465` |
    | `SMTP_USER` | `team@100daysforai.com` |
@@ -89,21 +89,21 @@ If a page shows "Something went wrong", open Vercel → your project → **Logs*
 
 ## Step 5 — Use your own domain (5 min)
 
-`100daysforai.com` already hosts your academy site, so give Foundry a **subdomain**, for example
-`foundry.100daysforai.com`. (A separate domain works the same way.)
+`100daysforai.com` already hosts your academy site, so give Etsscope a **subdomain**, for example
+`etsscope.100daysforai.com`. (A separate domain works the same way.)
 
-1. Vercel → your project → **Settings → Domains** → type `foundry.100daysforai.com` → **Add**.
+1. Vercel → your project → **Settings → Domains** → type `etsscope.100daysforai.com` → **Add**.
    Vercel shows a **CNAME** record to create, usually `cname.vercel-dns.com`.
 2. Your domain's DNS is on **Cloudflare**. Cloudflare → `100daysforai.com` → **DNS → Add record**:
-   - Type `CNAME`, Name `foundry`, Target `cname.vercel-dns.com`
+   - Type `CNAME`, Name `etsscope`, Target `cname.vercel-dns.com`
    - Proxy status: **DNS only (grey cloud)**. Vercel needs this to issue the HTTPS certificate.
 3. Wait until Vercel shows the domain as **Valid** (usually a few minutes).
-4. Vercel → **Settings → Environment Variables** → set `SITE_URL` to `https://foundry.100daysforai.com` →
+4. Vercel → **Settings → Environment Variables** → set `SITE_URL` to `https://etsscope.100daysforai.com` →
    then **Deployments → ⋯ → Redeploy** so the change takes effect. This fixes canonical links, the sitemap and admin links in emails.
 
 ## Step 6 — Connect the Radar
 
-Give the Radar the endpoint `https://foundry.100daysforai.com/api/radar/reports` and the `RADAR_INGEST_TOKEN`
+Give the Radar the endpoint `https://etsscope.100daysforai.com/api/radar/reports` and the `RADAR_INGEST_TOKEN`
 from Step 3. Format and examples are in `RADAR-INTEGRATION.md`. Vercel accepts request bodies up to 4.5 MB, roughly
 3,000 discoveries, so send larger scans in parts.
 
