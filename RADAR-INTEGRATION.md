@@ -8,6 +8,24 @@ The website does not scan Etsy. It only receives and displays what your existing
 | **CLI import** | The Radar writes a JSON file on the same server. Run `npm run import -- path/to/report.json` from cron / Task Scheduler. |
 | **Admin upload** | One-off or recovery: drag the JSON file onto *Admin → Radar reports*. |
 
+## 0. GitHub data.json (how the Radar is connected today)
+
+The Radar team pushes a new `data.json` each week to the GitHub repo **Moshsin1991/etsy-radar-data** (branch `main`). Etsscope pulls it; nothing has to run on the Radar side.
+
+- **When:** Vercel Cron calls `/api/cron/radar-sync` once a day (01:30 UTC, about 06:30 Pakistan time). It downloads `data.json` and does nothing if the file is unchanged. *Admin → Overview → Sync now* does the same at any time (Shift-click re-imports an unchanged file).
+- **What it does with a new file:**
+  - The 40-ish `shops` go through the normal ingest (`source = github`). They are matched to existing shops by Etsy URL, then name, so they're updated rather than duplicated. They are published and become the featured shops, and the previous batch's shops stay published but are no longer featured.
+  - `keywords` replace the weekly keyword list in rank order. The homepage radar opens on the top 15, and their research figures (shops, students, 90-day reviews, Etsy search results) show on each keyword page.
+  - Only fields present in data.json are shown. Revenue and sales are labelled as estimates.
+- **Settings (Vercel → Settings → Environment Variables):**
+  | Variable | Needed? | Value |
+  |---|---|---|
+  | `CRON_SECRET` | Yes, for the daily run | any random string of 16+ characters. Vercel sends it automatically to the cron route. |
+  | `RADAR_GITHUB_TOKEN` | Yes while the repo is private | a read-only GitHub token that can read the repo's contents. Leave it out if the repo is made public. |
+  | `RADAR_DATA_URL` | No | defaults to `https://raw.githubusercontent.com/Moshsin1991/etsy-radar-data/main/data.json` |
+  | `RADAR_SYNC_REVIEW` | No | `true` keeps new shops unpublished until approved in admin. Keywords still go live. |
+- The result of the last check, plus any error, is shown in *Admin → Overview → Radar data from GitHub*.
+
 ## 1. HTTP POST
 
 ```

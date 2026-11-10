@@ -52,6 +52,12 @@
     : `<div class="banner ok">Radar is reporting. Last report ${esc(ago(o.lastReportAt))}.</div>`
   const reportRows = rs => rs.length ? `<table><thead><tr><th>Received</th><th>Source</th><th>Items</th><th>New</th><th>Updated</th><th>Skipped</th><th>Status</th></tr></thead><tbody>${rs.map(r => `<tr><td>${esc(when(r.received_at))}</td><td>${esc(r.source)}</td><td>${r.products} products, ${r.shops} shops</td><td>${r.created}</td><td>${r.updated}</td><td>${r.skipped}</td><td><span class="st ${esc(r.status)}">${esc(r.status)}</span>${r.message ? `<div class="muted">${esc(r.message)}</div>` : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">No reports received yet.</p>'
 
+  const syncPanel = s => `<div class="panel"><h3>Radar data from GitHub</h3>
+      <p class="muted" style="margin-bottom:10px">Reads <code>${esc(s.url)}</code>. ${s.scheduled ? 'Checked automatically once a day; a new data.json is imported, its shops are featured and its keywords replace the weekly list.' : '<b>Daily automatic check is off:</b> add <code>CRON_SECRET</code> (16+ characters) in Vercel and redeploy. Until then, use Sync now after each weekly push.'}${s.review ? ' New shops wait for review (RADAR_SYNC_REVIEW=true).' : ''}</p>
+      <p style="margin-bottom:10px">Last import: <b>${s.importedAt ? esc(when(s.importedAt)) : 'never'}</b>${s.importedAt ? ` · ${esc(s.dataset || 'data.json')}, data date ${esc(s.dataDate || '—')} · ${s.shops} shops (${s.created} new), ${s.keywords} keywords` : ''}<br><span class="muted">Last check: ${esc(ago(s.checkedAt))}</span></p>
+      ${s.lastError ? `<div class="banner warn">Last sync failed: ${esc(s.lastError)}</div>` : ''}
+      <button class="btn" id="syncNow" title="Shift-click to re-import even if data.json has not changed">Sync now</button></div>`
+
   function overview() {
     const o = state.overview, c = o.counts
     content().innerHTML = `<h2 class="title">Overview</h2>${radarBanner(o)}
@@ -64,7 +70,13 @@
           : `<p class="muted" style="margin-bottom:10px">Not set up yet. Add <code>NOTIFY_EMAIL</code>, <code>SMTP_HOST</code>, <code>SMTP_USER</code> and <code>SMTP_PASS</code> to <code>.env</code> and restart. Until then, new requests only appear here.</p>`}
         ${o.email.lastError ? `<div class="banner warn">Last email failed: ${esc(o.email.lastError)}</div>` : ''}
         ${o.email.ready ? '<button class="btn line" id="testEmail">Send a test email</button>' : ''}</div>
+      ${syncPanel(o.radarSync || {})}
       <div class="panel"><h3>Recent Radar reports</h3>${reportRows(o.reports)}</div>`
+    document.getElementById('syncNow')?.addEventListener('click', async e => {
+      e.target.disabled = true; e.target.textContent = 'Syncing…'
+      try { const r = await api('/api/admin/radar-sync', { method: 'POST', body: JSON.stringify({ force: e.shiftKey }) }); toast(r.changed ? `Imported ${r.shops} shops and ${r.keywords} keywords` : 'Already up to date: data.json has not changed'); await refresh() }
+      catch (err) { toast(err.message); await refresh() }
+    })
     content().querySelectorAll('[data-go]').forEach(b => b.onclick = () => { state.tab = b.dataset.go; renderShell() })
     document.getElementById('testEmail')?.addEventListener('click', async e => {
       e.target.disabled = true; e.target.textContent = 'Sending…'
