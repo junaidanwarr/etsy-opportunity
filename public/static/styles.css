@@ -278,3 +278,73 @@ table { border-collapse: collapse; width: 100%; font-size: 15px; }
 }
 
 .video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:32px}.workflow-video iframe,.workflow-video video,.video-placeholder{width:100%;aspect-ratio:16/9;border:0;border-radius:16px;background:#e9dfd2}.video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#795a45}.video-placeholder span{font-size:56px}.workflow-video h3{margin-top:16px}@media(max-width:650px){.video-grid{grid-template-columns:1fr}}
+
+/* ===== Homepage redesign: centred radar, strip under the black bar, 9:16 videos, on-theme motion ===== */
+
+/* Scrolling attributes strip now sits directly under the black announcement bar */
+.announce + .marquee { border-top: 0; padding: 12px 0; }
+.announce + .marquee .track { font-size: 15px; }
+
+/* Centred hero: radar first, tagline underneath */
+.hero.hero-center { display: flex; flex-direction: column; align-items: center; min-height: 0; padding: clamp(28px, 4vw, 56px) 20px clamp(56px, 7vw, 96px); text-align: center;
+  background: radial-gradient(ellipse 70% 60% at 50% 32%, rgba(200,103,60,.10), transparent 70%); }
+.hero-center .stage { width: 100%; min-height: 0; background: none; overflow: visible; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.hero-center .stage::before { display: none; }
+.hero-center .stage .tag { position: static; order: 2; box-shadow: 0 6px 18px rgba(60,40,20,.08); }
+.radar-wrap { position: relative; width: min(540px, 88vw, 56svh); min-width: min(300px, 88vw); aspect-ratio: 1; }
+.hero-center .stage .radar { position: absolute; inset: 0; width: 100%; }
+.hero-center .radar-keywords { inset: 9%; top: 9%; left: 9%; right: 9%; height: auto; transform: none; }
+.hero-center .text { padding: 26px 0 0; max-width: 860px; align-items: center; gap: 22px; }
+.hero-center h1 { font-size: clamp(38px, 5.4vw, 80px); }
+.hero-center .lead { margin-inline: auto; }
+.hero-center .ctas { justify-content: center; }
+
+/* Hero entrance is pure CSS, so the first screen never depends on JavaScript */
+.hero-in { animation: hero-rise .9s var(--ease) var(--d, 0s) both; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+/* The italic line gets a terracotta underline that draws itself */
+.hero-center h1 .it { background: linear-gradient(var(--clay), var(--clay)) no-repeat 0 92% / 0 2px; animation: ink 1.4s var(--ease) 1s forwards; }
+@keyframes ink { to { background-size: 100% 2px; } }
+
+/* Radar "pings": trends being detected as the beam sweeps round */
+.blip { position: absolute; left: var(--x); top: var(--y); width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--clay); z-index: 2; opacity: 0;
+  animation: blip 5s ease-out var(--bd) infinite; }
+.blip::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--clay); animation: ping 5s ease-out var(--bd) infinite; }
+@keyframes blip { 0%, 4% { opacity: 0; transform: scale(.4); } 8% { opacity: 1; transform: scale(1.15); } 30% { opacity: .85; transform: scale(1); } 60%, 100% { opacity: 0; transform: scale(.8); } }
+@keyframes ping { 0%, 6% { opacity: 0; transform: scale(.6); } 10% { opacity: .9; } 40%, 100% { opacity: 0; transform: scale(3.4); } }
+.radar b:nth-of-type(3) { animation: core 2.5s ease-in-out infinite; }
+@keyframes core { 50% { box-shadow: 0 0 48px rgba(200,103,60,.85); } }
+
+/* "How it works": a progress path draws through the four steps when they scroll into view */
+.steps.rv-path { position: relative; border-top-color: transparent; }
+.steps.rv-path::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: linear-gradient(90deg, var(--clay), #e9a66b); transform: scaleX(0); transform-origin: left; transition: transform 1.6s var(--ease) .2s; }
+.steps.rv-path.in::before { transform: scaleX(1); }
+.steps.rv-path li span { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(200,103,60,.5); transition: background .4s, color .4s; }
+.steps.rv-path.in li span { background: var(--clay); color: #fff; }
+.steps.rv-path.in li:nth-child(1) span { transition-delay: .3s; } .steps.rv-path.in li:nth-child(2) span { transition-delay: .7s; }
+.steps.rv-path.in li:nth-child(3) span { transition-delay: 1.1s; } .steps.rv-path.in li:nth-child(4) span { transition-delay: 1.5s; }
+
+/* Cards: lift, plus a scan-light sweep across the picture on hover */
+.card { transition: transform .45s var(--ease); }
+.card:hover { transform: translateY(-4px); }
+.card .pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%); transform: translateX(-120%); pointer-events: none; }
+.card:hover .pic::after { transition: transform .9s var(--ease); transform: translateX(120%); }
+
+/* Workflow videos in 9:16 (Shorts / Reels shape), kept to a sensible size */
+.video-grid { grid-template-columns: repeat(2, minmax(0, 320px)); justify-content: center; gap: clamp(20px, 4vw, 48px); }
+.workflow-video iframe, .workflow-video video, .video-placeholder { aspect-ratio: 9 / 16; border-radius: 22px; }
+.workflow-video { text-align: center; }
+.workflow-videos .wrap { text-align: center; }
+.video-placeholder { position: relative; overflow: hidden; box-shadow: 0 24px 50px rgba(60,40,20,.12); }
+.video-placeholder::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(200,103,60,.12)); }
+.video-placeholder span { width: 76px; height: 76px; display: grid; place-items: center; border-radius: 50%; background: var(--paper); font-size: 30px; padding-left: 4px; animation: play-pulse 2.4s ease-in-out infinite; }
+@keyframes play-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,103,60,.35); } 50% { box-shadow: 0 0 0 16px rgba(200,103,60,0); } }
+@media (max-width: 650px) { .video-grid { grid-template-columns: minmax(0, 300px); } }
+
+@media (max-width: 860px) { .hero.hero-center .stage { order: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-in { opacity: 1; transform: none; }
+  .hero-center h1 .it { background-size: 100% 2px; }
+  .blip { opacity: .8; } .steps.rv-path::before { transform: none; }
+}

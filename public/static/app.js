@@ -11,9 +11,17 @@
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 
   /* ---------- Reveal ---------- */
-  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .08 }) : null
-  document.querySelectorAll('.rv').forEach(el => io ? io.observe(el) : el.classList.add('in'))
-  setTimeout(() => document.querySelectorAll('.rv:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in') }), 400)
+  const countUp = el => {
+    const end = Number(el.dataset.count)
+    if (reduce || !Number.isFinite(end) || end <= 0) return
+    const t0 = performance.now(), dur = 1400
+    const tick = now => { const p = Math.min((now - t0) / dur, 1); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))).toLocaleString(); if (p < 1) requestAnimationFrame(tick) }
+    requestAnimationFrame(tick)
+  }
+  const reveal = el => { el.classList.add('in'); el.querySelectorAll('[data-count]').forEach(countUp) }
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { reveal(e.target); io.unobserve(e.target) } }), { threshold: .08 }) : null
+  document.querySelectorAll('.rv, .rv-path').forEach(el => io ? io.observe(el) : reveal(el))
+  setTimeout(() => document.querySelectorAll('.rv:not(.in), .rv-path:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < innerHeight) reveal(el) }), 400)
 
   /* Rotate published keyword labels without duplicates or extra network calls. */
   const radarLabels = document.querySelector('.radar-keywords')
