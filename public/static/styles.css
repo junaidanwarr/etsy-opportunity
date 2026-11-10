@@ -291,9 +291,10 @@ table { border-collapse: collapse; width: 100%; font-size: 15px; }
 .hero-center .stage { width: 100%; min-height: 0; background: none; overflow: visible; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .hero-center .stage::before { display: none; }
 .hero-center .stage .tag { position: static; order: 2; box-shadow: 0 6px 18px rgba(60,40,20,.08); }
-.radar-wrap { position: relative; width: min(540px, 88vw, 56svh); min-width: min(300px, 88vw); aspect-ratio: 1; }
+.radar-wrap { position: relative; width: min(860px, calc(100vw - 40px), 80svh); min-width: min(340px, calc(100vw - 40px)); aspect-ratio: 1; }
 .hero-center .stage .radar { position: absolute; inset: 0; width: 100%; }
-.hero-center .radar-keywords { inset: 9%; top: 9%; left: 9%; right: 9%; height: auto; transform: none; }
+.hero-center .radar-keywords { inset: 12%; top: 12%; left: 12%; right: 12%; height: auto; transform: none; gap: 10px 22px; }
+.hero-center .radar-keyword { font-size: clamp(12px, 1.25vw, 17px); }
 .hero-center .text { padding: 26px 0 0; max-width: 860px; align-items: center; gap: 22px; }
 .hero-center h1 { font-size: clamp(38px, 5.4vw, 80px); }
 .hero-center .lead { margin-inline: auto; }
