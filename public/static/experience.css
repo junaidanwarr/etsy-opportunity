@@ -1,0 +1,108 @@
+/* Interactive research studio. Retains Etsscope's paper, ink and clay palette. */
+[hidden] { display:none !important; }
+.experience-heading { display:flex; align-items:end; justify-content:space-between; gap:40px; margin-bottom:38px; }
+.experience-heading h2 { max-width:760px; margin-top:14px; }
+.experience-heading > p { max-width:300px; color:var(--muted); }
+.opportunities { background:linear-gradient(180deg,var(--bg),#e8dfd3 55%,var(--bg)); overflow:hidden; }
+.opportunity-stage { position:relative; perspective:1100px; min-height:390px; touch-action:pan-y; cursor:grab; }
+.opportunity-stage.dragging { cursor:grabbing; }
+.opportunity-track { display:flex; gap:18px; overflow-x:auto; padding:30px 10px; scroll-snap-type:x mandatory; }
+.opportunity-card { width:260px; flex-shrink:0; background:var(--paper); border:1px solid #fff9; border-radius:18px; box-shadow:0 15px 30px -18px #48301f77; scroll-snap-align:center; }
+.opportunity-pick { padding:12px; background:none; border:0; text-align:left; width:100%; border-radius:18px; }
+.opportunity-pick img,.opportunity-pick svg { width:100%; height:220px; object-fit:cover; border-radius:10px; pointer-events:none; }
+.opportunity-pick > span { display:block; color:var(--muted); font-size:12px; margin:14px 6px 5px; }
+.opportunity-pick h3 { font-size:21px; line-height:1.2; margin:0 6px 8px; min-height:50px; }
+.opportunity-stage.enhanced .opportunity-track { display:block; overflow:visible; padding:0; transform-style:preserve-3d; }
+.opportunity-stage.enhanced .opportunity-card { position:absolute; top:22px; left:50%; margin-left:-130px; transform:translateX(calc(var(--offset) * 230px)) translateZ(calc(var(--distance) * -125px)) rotateY(calc(var(--offset) * -18deg)); opacity:var(--visibility); z-index:var(--layer); transition:transform .6s var(--ease),opacity .35s,box-shadow .35s; }
+.opportunity-card.selected { box-shadow:0 24px 40px -20px #48301f99,0 0 0 2px var(--clay); }
+.carousel-controls { display:flex; align-items:center; justify-content:center; gap:24px; margin:16px 0 25px; }
+.carousel-controls p { min-width:74px; text-align:center; color:var(--muted); font-size:14px; }
+.round-control { border:1px solid var(--line); background:var(--paper); border-radius:50%; width:46px; height:46px; font-size:22px; }
+.round-control:hover { background:var(--fg);color:var(--paper); }
+.round-control:disabled { opacity:.3;cursor:default; }
+.opportunity-details { max-width:950px; margin:auto; padding:26px 0; border-top:1px solid var(--line); }
+.opportunity-details > div { display:flex; justify-content:space-between; align-items:center; gap:24px; }
+.opportunity-details h3 { font-size:28px; margin:6px 0; }
+.opportunity-details .ctas { margin-top:0; flex-shrink:0; }
+.globe-filters,.category-filters { display:flex; gap:8px; flex-wrap:wrap; }
+.globe-filters { justify-content:center; margin-bottom:12px; }
+.globe-filters button,.category-filters button { border:1px solid var(--line); border-radius:999px; padding:9px 16px; background:var(--paper); font-size:13px; }
+.globe-filters button[aria-pressed=true],.category-filters button[aria-pressed=true] { background:var(--fg);color:var(--paper);border-color:var(--fg); }
+.globe-preview { margin:22px auto 0; padding:22px 26px; max-width:520px; border-left:3px solid var(--clay); background:#f8f5efb3; border-radius:0 12px 12px 0; min-height:150px; }
+.globe-preview h3 { font-size:24px; margin:5px 0 8px; overflow-wrap:anywhere; }
+.globe-preview p { color:var(--muted);font-size:14px; }
+.globe-preview .ctas { margin-top:14px; }
+.globe-preview .btn { padding:9px 14px;font-size:13px; }
+.globe-tag.selected { outline:2px solid var(--clay);outline-offset:3px; }
+.constellation-section { background:#263c36;color:#f8f5ef; }
+.constellation-section .kicker,.constellation-section .experience-heading > p { color:#bed0c2; }
+.constellation-section .category-filters button { color:#e6eee8;background:#ffffff0b;border-color:#ffffff30; }
+.constellation-section .category-filters button[aria-pressed=true] { background:#e5c3a0;color:#263c36;border-color:#e5c3a0; }
+.constellation { position:relative; min-height:540px; margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; align-content:center; background:radial-gradient(ellipse at center,#56705e33,transparent 70%); }
+.constellation-lines { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
+.constellation-lines line { stroke:#b7caba;stroke-opacity:.22;stroke-width:1; }
+.constellation-node { display:block; padding:8px 13px; border:1px solid #a6c1ab50; background:#304a41; border-radius:999px; color:#eff5ed; text-decoration:none;font-size:12px;box-shadow:0 6px 18px #12241e44;transition:opacity .25s,background .25s,box-shadow .25s; }
+.constellation.mapped .constellation-node { position:absolute; transform:translate(-50%,-50%);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.constellation-node::before { content:'';display:inline-block;width:5px;height:5px;background:#e9c69f;border-radius:50%;margin-right:8px;box-shadow:0 0 9px #ebcba799; }
+.constellation-node:hover,.constellation-node:focus-visible { background:#48644e;box-shadow:0 0 0 2px #d9bc91;z-index:3; }
+.constellation-node.dimmed { opacity:.17; }
+.category-summary { color:#bed0c2;margin-top:15px;font-size:13px; }
+.workflow-desk { background:#e8e0d4; }
+.desk-surface { position:relative; display:grid;grid-template-columns:repeat(4,1fr);gap:36px;padding:55px 40px 65px;border-radius:22px;background:#d6c4aa;perspective:1100px;box-shadow:inset 0 2px 2px #fff7,inset 0 -10px 0 #b19b7f,0 28px 35px -24px #372d2455; }
+.desk-grain { position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(2deg,transparent 0 12px,#805a2e08 13px,transparent 16px);pointer-events:none; }
+.desk-object { min-height:260px;position:relative;border:1px solid #ac998044;border-radius:3px 9px 9px 3px;background:#faf6e9;padding:20px;text-align:left;box-shadow:5px 8px 0 -3px #e6dfce,10px 14px 0 -6px #d9d0bc,15px 25px 24px -14px #48301f66;transform:rotateX(12deg) rotateZ(-5deg);transition:transform .4s var(--ease),box-shadow .4s; }
+.desk-object.review { transform:rotateX(12deg) rotateZ(5deg);background:#e1e7d5; }
+.desk-object.folder { transform:rotateX(12deg) rotateZ(-3deg);background:#ca8b57;border-radius:3px 15px 15px 3px; }
+.desk-object.folder::before { content:'';position:absolute;top:-13px;left:0;width:45%;height:15px;background:#ca8b57;border-radius:8px 8px 0 0; }
+.desk-object.booklet { transform:rotateX(12deg) rotateZ(4deg);background:#3c574d;color:#fff6e5;border-left:9px solid #283b34; }
+.desk-object[aria-pressed=true],.desk-object:hover { transform:translateY(-16px) rotateX(0) rotateZ(0);box-shadow:6px 9px 0 -4px #e6dfce,10px 32px 30px -14px #48301f66; }
+.desk-object[aria-pressed=true] { outline:2px solid var(--clay);outline-offset:6px; }
+.desk-number { font-size:13px;opacity:.6; }
+.object-drawing { display:block;font-family:Newsreader,Georgia,serif;font-size:65px;height:105px;line-height:105px; }
+.sheet .object-drawing { color:#aa7152; }
+.desk-object strong,.desk-object small { display:block; }
+.desk-object strong { font-size:19px;font-weight:500; }
+.desk-object small { margin-top:7px;opacity:.7;font-size:12px; }
+.desk-detail { margin-top:38px; }
+.desk-detail > div { display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center; }
+.desk-detail-number { font-family:Newsreader,Georgia,serif;font-size:60px;color:var(--clay); }
+.desk-detail h3 { font-size:25px;margin-bottom:8px; }
+.desk-detail p { color:var(--muted);max-width:640px; }
+.save-flight { position:fixed;z-index:200;width:58px;height:58px;border-radius:12px;background:var(--paper);box-shadow:0 8px 22px #34241744;pointer-events:none;overflow:hidden;display:grid;place-items:center;color:var(--clay);font-size:30px; }
+.save-flight img,.save-flight svg { width:100%;height:100%;object-fit:cover; }
+.save-toast { position:fixed;bottom:25px;left:50%;transform:translateX(-50%);padding:12px 22px;border-radius:999px;background:var(--fg);color:var(--paper);z-index:100;box-shadow:0 10px 30px #0002;max-width:90vw;text-align:center; }
+.opportunity-pick,.desk-object { background-image:radial-gradient(circle at var(--light-x,50%) var(--light-y,0%),#ffffff45,transparent 65%); }
+.card .pic::after { background:radial-gradient(circle at var(--gx,50%) var(--gy,20%),#fff8,transparent 65%) !important; }
+@media(max-width:900px) {
+ .experience-heading { display:block; }.experience-heading > p { max-width:540px;margin-top:18px; }
+ .opportunity-details > div { display:block; }.opportunity-details .ctas { margin-top:20px; }
+ .desk-surface { grid-template-columns:repeat(2,1fr);gap:36px;padding:45px 25px; }
+ .desk-detail > div { grid-template-columns:auto 1fr; }.desk-detail .btn { grid-column:2;justify-self:start; }
+}
+@media(max-width:600px) {
+ .opportunity-stage.enhanced .opportunity-card { width:230px;margin-left:-115px;transform:translateX(calc(var(--offset) * 205px)) translateZ(calc(var(--distance) * -160px)) rotateY(calc(var(--offset) * -22deg)); }
+ .opportunity-pick img,.opportunity-pick svg { height:190px; }.opportunity-stage { min-height:355px; }
+ .constellation { min-height:0;gap:10px; }.constellation-node { font-size:12px;max-width:100%; }.constellation-lines { display:none; }.constellation-node.dimmed { display:none; }
+ .desk-object { min-height:205px;padding:14px; }.desk-surface { gap:30px 20px;padding:35px 20px; }.desk-object strong { font-size:16px; }.object-drawing { height:72px;line-height:72px;font-size:48px; }
+ .desk-detail > div { gap:16px; }.desk-detail-number { font-size:42px; }.desk-detail h3 { font-size:22px; }
+}
+@media(prefers-reduced-motion:reduce) { .opportunity-card,.desk-object,.constellation-node { transition:none !important; } }
+
+.radar-intro { overflow:clip; }
+.constellation-more { display:inline-block;margin-top:16px;text-underline-offset:5px; }
+@media(max-width:600px) { .globe-tag { max-width:135px;overflow:hidden;text-overflow:ellipsis;font-size:11px;padding:6px 9px; } }
+
+.hero.hero-center { overflow:clip; }
+
+/* Sculpted placeholder objects: solid edges, shaded faces and responsive light. */
+.icon-sculpture { perspective:650px; }
+.icon-object { transform-origin:100px 110px; transform:perspective(650px) rotateX(var(--icon-rx,0deg)) rotateY(var(--icon-ry,0deg)) translateY(var(--icon-lift,0px)); transition:transform .35s var(--ease); }
+.icon-face,.icon-canopy { transform-origin:100px 100px; transition:transform .4s var(--ease); }
+.icon-ground { transform-origin:100px 164px; transition:transform .4s,opacity .4s; }
+.icon-spark { transform-origin:163px 36px; transition:transform .6s var(--ease),opacity .4s; }
+.card:hover .icon-face,.card:focus-within .icon-face,.opportunity-pick:hover .icon-face { transform:translate(-2px,-5px); }
+.card:hover .icon-canopy,.card:focus-within .icon-canopy { transform:translateY(-5px); }
+.card:hover .icon-ground,.opportunity-pick:hover .icon-ground { transform:scale(.88);opacity:.65; }
+.card:hover .icon-spark,.opportunity-pick:hover .icon-spark { transform:rotate(90deg);opacity:1; }
+.card:focus-within .icon-object { --icon-lift:-5px; }
+@media(prefers-reduced-motion:reduce) { .icon-object,.icon-face,.icon-canopy,.icon-ground,.icon-spark { transition:none !important;transform:none !important; } }

@@ -98,7 +98,7 @@
 
   document.addEventListener('click', e => {
     const s = e.target.closest('[data-save]')
-    if (s) { e.preventDefault(); try { toggle(JSON.parse(s.dataset.save)) } catch {} return }
+    if (s) { e.preventDefault(); try { const d = JSON.parse(s.dataset.save); const adding = !has(d.id) && list.length < 50; toggle(d); if (adding) document.dispatchEvent(new CustomEvent('shortlist-added', { detail: { button: s, item: d } })) } catch {} return }
     const r = e.target.closest('[data-remove]')
     if (r) { list = list.filter(i => i.id !== r.dataset.remove); save(); render() }
   })
@@ -108,6 +108,7 @@
   addEventListener('keydown', e => { if (e.key === 'Escape' && body.classList.contains('open')) closeList() })
   addEventListener('storage', e => { if (e.key === KEY) { try { list = JSON.parse(e.newValue || '[]') } catch { list = [] } render() } })
   render()
+  document.addEventListener('shortlist-refresh', render)
 
   /* ---------- Scroll scenes: feed each tall section its own progress (0 to 1) as --p ---------- */
   const scrubs = [...document.querySelectorAll('[data-scrub]')]
@@ -164,7 +165,7 @@
     const AUTO = reduce ? 0 : .0022
     let vy = AUTO, vx = 0, raf = 0, visible = false, hold = false, drag = null, suppressClick = false
     const draw = () => {
-      const R = globe.clientWidth * .41, cy = Math.cos(vy), sy = Math.sin(vy), cx = Math.cos(vx), sx = Math.sin(vx)
+      const R = globe.clientWidth * (globe.clientWidth < 400 ? .32 : .41), cy = Math.cos(vy), sy = Math.sin(vy), cx = Math.cos(vx), sx = Math.sin(vx)
       for (const p of pts) {
         const x = p.x * cy + p.z * sy, z0 = p.z * cy - p.x * sy
         const y = p.y * cx - z0 * sx, z = p.y * sx + z0 * cx
@@ -174,6 +175,8 @@
         p.el.style.opacity = Math.max(0, Math.min(1, (z + .12) * 3)).toFixed(2) // tags behind the globe are hidden by it
         p.el.style.zIndex = Math.round(depth * 100) + 1
         p.el.style.pointerEvents = z > .1 ? '' : 'none'
+        p.el.tabIndex = p.el.hidden ? -1 : 0
+        if (document.activeElement === p.el) { p.el.style.opacity = '1'; p.el.style.zIndex = '120' }
       }
       // The globe itself: a shaded sphere with the continents as dots, turning with the tags.
       const w = globe.clientWidth, dpr = Math.min(devicePixelRatio || 1, 2)
@@ -199,11 +202,13 @@
     }
     const frame = () => {
       raf = 0
-      if (!drag?.live) { const rest = hold ? 0 : AUTO; vy += (rest - vy) * .04; vx *= .94 }
+      if (!drag?.live) { const rest = hold || globe.dataset.paused === 'true' ? 0 : AUTO; vy += (rest - vy) * .04; vx *= .94 }
       draw()
       if (visible && (Math.abs(vy) > .0002 || Math.abs(vx) > .0002 || drag?.live)) kick()
     }
     const kick = () => { if (!raf) raf = requestAnimationFrame(frame) }
+    globe.addEventListener('globe-update', () => { draw(); kick() })
+    new ResizeObserver(() => { draw(); kick() }).observe(globe)
     globe.classList.add('live')
     draw()
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) kick() }).observe(globe)
