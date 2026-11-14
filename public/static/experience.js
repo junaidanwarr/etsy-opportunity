@@ -86,46 +86,6 @@
     })
   }
 
-  const constellation = $('.constellation')
-  if (constellation) {
-    const nodes = all('.constellation-node'), svg = $('.constellation-lines')
-    const categories = [...new Set(nodes.map(n => n.dataset.category))]
-    let chosen = '*'
-    const paint = () => {
-      const wide = innerWidth > 600
-      constellation.classList.toggle('mapped', wide)
-      svg.replaceChildren()
-      if (!wide) { nodes.forEach(n => { n.style.left = ''; n.style.top = '' }); return }
-      const cols = Math.max(2, Math.floor(constellation.clientWidth / 180)), rows = Math.ceil(nodes.length / cols)
-      const height = Math.max(450, rows * 66 + 80)
-      constellation.style.height = `${height}px`; svg.setAttribute('viewBox', `0 0 ${constellation.clientWidth} ${height}`)
-      const sorted = categories.flatMap(c => nodes.filter(n => n.dataset.category === c)), centers = new Map()
-      sorted.forEach((n, i) => {
-        const x = (i % cols + .5) * constellation.clientWidth / cols, y = 50 + Math.floor(i / cols) * 66 + (i % 2 ? 12 : 0)
-        n.style.left = `${x}px`; n.style.top = `${y}px`
-        const group = centers.get(n.dataset.category) || []; group.push({x,y,node:n}); centers.set(n.dataset.category,group)
-      })
-      centers.forEach((points, category) => {
-        for (let i = 1; i < points.length; i++) {
-          const line = document.createElementNS('http://www.w3.org/2000/svg','line')
-          for (const [k,v] of Object.entries({x1:points[i-1].x,y1:points[i-1].y,x2:points[i].x,y2:points[i].y})) line.setAttribute(k,v)
-          line.style.opacity = chosen === '*' || chosen === category ? '1' : '.1'; svg.append(line)
-        }
-      })
-    }
-    const filter = category => {
-      chosen = category
-      all('[data-category]').filter(n => n.tagName === 'BUTTON').forEach(b => b.setAttribute('aria-pressed',b.dataset.category === category))
-      nodes.forEach(n => { const dim = category !== '*' && n.dataset.category !== category; n.classList.toggle('dimmed',dim); n.tabIndex = dim ? -1 : 0 })
-      const count = nodes.filter(n => !n.classList.contains('dimmed')).length
-      $('.category-summary').textContent = `${count} published keyword${count === 1 ? '' : 's'} in this view · ${category === '*' ? `${categories.length} shop categories` : category}`
-      paint()
-    }
-    all('.category-filters button').forEach(b => b.addEventListener('click', () => filter(b.dataset.category)))
-    new ResizeObserver(() => { if (innerWidth <= 600) constellation.style.height = ''; paint() }).observe(constellation)
-    filter('*')
-  }
-
   all('[data-desk-step]').forEach(button => button.addEventListener('click', () => {
     all('[data-desk-step]').forEach(b => b.setAttribute('aria-pressed', b === button))
     all('[data-desk-panel]').forEach(p => p.hidden = p.dataset.deskPanel !== button.dataset.deskStep)
