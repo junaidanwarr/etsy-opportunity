@@ -29,6 +29,9 @@ describe('premium pages', () => {
     assert.match(body, /<form[^>]+action="\/premium\/checkout"/)
     for (const f of ['name', 'email', 'whatsapp', 'method', 'transactionId', 'payerAccount', 'consent']) assert.match(body, new RegExp(`name="${f}"`), f)
   })
+  test('the privacy note explains what Premium payments store', async () => {
+    assert.match(await (await t.get('/privacy')).text(), /Premium payments\.<\/b>.*transaction ID/s)
+  })
   test('sitemap lists /premium', async () => {
     assert.match(await (await t.get('/sitemap.xml')).text(), /\/premium<\/loc>/)
   })

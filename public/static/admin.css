@@ -82,3 +82,4 @@ pre.code { background: var(--fg); color: #efe6d6; border-radius: 12px; padding: 
   .disc .acts { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
   .disc .edit { grid-column: 1 / -1; grid-template-columns: 1fr; }
 }
+.st.pending { background: var(--clay); color: #fff; border-color: var(--clay); } .st.active { color: var(--ok); } .st.expired, .st.rejected { color: var(--bad); }

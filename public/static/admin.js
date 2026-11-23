@@ -5,7 +5,7 @@
   const when = iso => { if (!iso) return '—'; const d = new Date(iso); return Number.isNaN(d.getTime()) ? '—' : d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }
   const day = iso => { const d = new Date(iso); return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }
   const ago = iso => { if (!iso) return 'never'; const h = (Date.now() - new Date(iso)) / 36e5; return h < 1 ? 'under an hour ago' : h < 48 ? `${Math.round(h)} hours ago` : `${Math.round(h / 24)} days ago` }
-  let state = { tab: 'overview', overview: null, discoveries: [], requests: [], statuses: [], reports: [], filter: 'pending', q: '', editing: null, reqFilter: 'open' }
+  let state = { tab: 'overview', overview: null, discoveries: [], requests: [], statuses: [], reports: [], filter: 'pending', q: '', editing: null, reqFilter: 'open', orders: [], payMethods: [], orderFilter: 'pending' }
 
   async function api(path, opts = {}) {
     const res = await fetch(path, { ...opts, headers: { 'content-type': 'application/json', ...(opts.headers || {}) } })
@@ -28,8 +28,9 @@
 
   /* ---------- Data ---------- */
   async function loadAll() {
-    const [o, d, r] = await Promise.all([api('/api/admin/overview'), api('/api/admin/discoveries'), api('/api/admin/requests')])
+    const [o, d, r, p] = await Promise.all([api('/api/admin/overview'), api('/api/admin/discoveries'), api('/api/admin/requests'), api('/api/admin/premium-orders')])
     state.overview = o; state.discoveries = d.discoveries; state.requests = r.requests; state.statuses = r.statuses
+    state.orders = p.orders; state.payMethods = p.methods
   }
   async function refresh() { await loadAll(); renderShell() }
 
@@ -39,12 +40,12 @@
     const tab = (id, label, pill) => `<button class="tab" data-tab="${id}" aria-current="${state.tab === id}">${label}${pill ? `<span class="pill">${pill}</span>` : ''}</button>`
     app.innerHTML = `<div class="shell">
       <aside class="side"><div class="brand">${esc(site)}<span>.</span> admin</div>
-        ${tab('overview', 'Overview')}${tab('discoveries', 'Discoveries', c.pending)}${tab('requests', 'Requests', c.newRequests)}${tab('reports', 'Radar reports')}
+        ${tab('overview', 'Overview')}${tab('discoveries', 'Discoveries', c.pending)}${tab('requests', 'Requests', c.newRequests)}${tab('premium', 'Premium', c.pendingPremium)}${tab('reports', 'Radar reports')}
         <div class="bottom"><a href="/" target="_blank" rel="noopener">View site ↗</a><button id="logout">Sign out</button></div></aside>
       <main class="content" id="content"></main></div>`
     app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { state.tab = b.dataset.tab; renderShell() })
     document.getElementById('logout').onclick = async () => { await api('/api/admin/logout', { method: 'POST' }).catch(() => {}); renderLogin() }
-    ;({ overview, discoveries, requests, reports })[state.tab]()
+    ;({ overview, discoveries, requests, premium, reports })[state.tab]()
   }
   const content = () => document.getElementById('content')
   const radarBanner = o => o.radarStale
@@ -175,6 +176,40 @@
         state.requests = state.requests.map(r => r.id === id ? request : r)
         state.overview.counts.newRequests = state.requests.filter(r => r.status === 'new').length
         toast('Request updated'); renderShell()
+      } catch (err) { toast(err.message) }
+    })
+  }
+
+  /* ---------- Premium orders (manual payments) ---------- */
+  const pkr = n => `PKR ${Number(n).toLocaleString('en-US')}`
+  const orderView = o => o.status === 'verified' ? (new Date(o.expiresAt) < new Date() ? 'expired' : 'active') : o.status
+  function premium() {
+    const label = id => state.payMethods.find(m => m.id === id)?.label || id
+    const list = state.orders.filter(o => state.orderFilter === 'all' || orderView(o) === state.orderFilter)
+    const seg = (id, text) => `<button data-of="${id}" aria-pressed="${state.orderFilter === id}">${text}</button>`
+    const wa = o => { const digits = o.whatsapp.replace(/\D/g, '').replace(/^0/, '92'); return `<a class="btn tiny" href="https://wa.me/${digits}?text=${encodeURIComponent(`Hi ${o.name.split(' ')[0]}, this is ${site} about Premium order ${o.ref}.`)}" target="_blank" rel="noopener">WhatsApp ${esc(o.whatsapp)}</a>` }
+    content().innerHTML = `<h2 class="title">Premium orders</h2>
+      <p class="muted" style="margin-bottom:12px">Check each payment in your bank, Easypaisa or JazzCash statement before you verify it. Verifying starts a 4-month membership and emails the buyer.</p>
+      <div class="toolbar"><div class="seg">${seg('pending', 'Pending')}${seg('active', 'Active')}${seg('expired', 'Expired')}${seg('rejected', 'Rejected')}${seg('all', 'All')}</div></div>
+      ${list.length ? list.map(o => `<article class="req">
+        <header><h4>${esc(o.name)} <span class="st ${esc(orderView(o))}">${esc(orderView(o))}</span></h4><span class="muted">${esc(o.ref)} · ${esc(when(o.createdAt))}</span></header>
+        <div class="row"><b>${esc(pkr(o.amountPkr))}</b><span>by ${esc(label(o.method))}</span><span>Transaction ID <code>${esc(o.transactionId)}</code></span><span class="muted">paid from ${esc(o.payerAccount)}</span></div>
+        <div class="row">${wa(o)}<a class="btn tiny" href="mailto:${esc(o.email)}?subject=${encodeURIComponent(`Your ${site} Premium order ${o.ref}`)}">Email ${esc(o.email)}</a></div>
+        ${o.status === 'verified' ? `<div>Membership: <b>${esc(day(o.startsAt))}</b> to <b>${esc(day(o.expiresAt))}</b></div>` : ''}
+        <label class="muted" for="pn-${esc(o.id)}">Internal notes (never shown to the buyer)</label>
+        <textarea id="pn-${esc(o.id)}" data-pnotes="${esc(o.id)}"${o.status === 'pending' ? '' : ' readonly'}>${esc(o.notes)}</textarea>
+        ${o.status === 'pending' ? `<div class="row"><button class="btn tiny" data-act="verify" data-id="${esc(o.id)}">Verify payment</button><button class="btn tiny line" data-act="reject" data-id="${esc(o.id)}">Reject</button></div>` : `<div class="muted">Updated ${esc(when(o.updatedAt))}</div>`}
+      </article>`).join('') : '<div class="panel"><p class="muted">No orders in this view.</p></div>'}`
+    content().querySelectorAll('[data-of]').forEach(b => b.onclick = () => { state.orderFilter = b.dataset.of; premium() })
+    content().querySelectorAll('[data-act]').forEach(b => b.onclick = async () => {
+      const id = b.dataset.id, action = b.dataset.act
+      const o = state.orders.find(x => x.id === id)
+      if (!confirm(action === 'verify' ? `Verify ${pkr(o.amountPkr)} from ${o.name} (transaction ${o.transactionId})? This starts their membership and emails them.` : `Reject order ${o.ref} from ${o.name}?`)) return
+      try {
+        const { order } = await api(`/api/admin/premium-orders/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ action, notes: content().querySelector(`[data-pnotes="${id}"]`).value }) })
+        state.orders = state.orders.map(x => x.id === id ? order : x)
+        state.overview.counts.pendingPremium = state.orders.filter(x => x.status === 'pending').length
+        toast(action === 'verify' ? 'Payment verified, membership started' : 'Order rejected'); renderShell()
       } catch (err) { toast(err.message) }
     })
   }
