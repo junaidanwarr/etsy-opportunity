@@ -452,3 +452,5 @@ table { border-collapse: collapse; width: 100%; font-size: 15px; }
 .pay-method dl div { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .pay-method dt { color: var(--muted); }
 .pay-method dd { margin: 0; font-weight: 600; word-break: break-all; text-align: right; }
+.premium-form input[type=file] { font: inherit; font-size: 15px; color: var(--fg); background: var(--bg); border: 1px dashed var(--line); border-radius: 12px; padding: 12px 14px; width: 100%; }
+.premium-form .form-error:empty { display: none; }

@@ -183,18 +183,25 @@
   /* ---------- Premium orders (manual payments) ---------- */
   const pkr = n => `PKR ${Number(n).toLocaleString('en-US')}`
   const orderView = o => o.status === 'verified' ? (new Date(o.expiresAt) < new Date() ? 'expired' : 'active') : o.status
+  const proofView = o => {
+    if (!o.proofMime) return '<div class="muted">No payment proof was uploaded with this order.</div>'
+    const url = `/api/admin/premium-orders/${encodeURIComponent(o.id)}/proof`
+    return o.proofMime === 'application/pdf' ? `<div class="proof"><b>Payment proof</b><a class="btn tiny line" href="${url}">Download PDF</a></div>`
+      : `<div class="proof"><b>Payment proof</b><a href="${url}" target="_blank" rel="noopener" title="Open full size"><img src="${url}" alt="Payment proof for ${esc(o.ref)}" loading="lazy"></a></div>`
+  }
   function premium() {
     const label = id => state.payMethods.find(m => m.id === id)?.label || id
     const list = state.orders.filter(o => state.orderFilter === 'all' || orderView(o) === state.orderFilter)
     const seg = (id, text) => `<button data-of="${id}" aria-pressed="${state.orderFilter === id}">${text}</button>`
     const wa = o => { const digits = o.whatsapp.replace(/\D/g, '').replace(/^0/, '92'); return `<a class="btn tiny" href="https://wa.me/${digits}?text=${encodeURIComponent(`Hi ${o.name.split(' ')[0]}, this is ${site} about Premium order ${o.ref}.`)}" target="_blank" rel="noopener">WhatsApp ${esc(o.whatsapp)}</a>` }
     content().innerHTML = `<h2 class="title">Premium orders</h2>
-      <p class="muted" style="margin-bottom:12px">Check each payment in your bank, Easypaisa or JazzCash statement before you verify it. Verifying starts a 4-month membership and emails the buyer.</p>
+      <p class="muted" style="margin-bottom:12px">Compare the proof with the payment details, then check the payment in your bank, Easypaisa or JazzCash statement. A screenshot alone can be faked. Verifying starts a 4-month membership and emails the buyer.</p>
       <div class="toolbar"><div class="seg">${seg('pending', 'Pending')}${seg('active', 'Active')}${seg('expired', 'Expired')}${seg('rejected', 'Rejected')}${seg('all', 'All')}</div></div>
       ${list.length ? list.map(o => `<article class="req">
         <header><h4>${esc(o.name)} <span class="st ${esc(orderView(o))}">${esc(orderView(o))}</span></h4><span class="muted">${esc(o.ref)} · ${esc(when(o.createdAt))}</span></header>
         <div class="row"><b>${esc(pkr(o.amountPkr))}</b><span>by ${esc(label(o.method))}</span><span>Transaction ID <code>${esc(o.transactionId)}</code></span><span class="muted">paid from ${esc(o.payerAccount)}</span></div>
         <div class="row">${wa(o)}<a class="btn tiny" href="mailto:${esc(o.email)}?subject=${encodeURIComponent(`Your ${site} Premium order ${o.ref}`)}">Email ${esc(o.email)}</a></div>
+        ${proofView(o)}
         ${o.status === 'verified' ? `<div>Membership: <b>${esc(day(o.startsAt))}</b> to <b>${esc(day(o.expiresAt))}</b></div>` : ''}
         <label class="muted" for="pn-${esc(o.id)}">Internal notes (never shown to the buyer)</label>
         <textarea id="pn-${esc(o.id)}" data-pnotes="${esc(o.id)}"${o.status === 'pending' ? '' : ' readonly'}>${esc(o.notes)}</textarea>

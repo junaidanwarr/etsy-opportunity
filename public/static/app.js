@@ -255,6 +255,12 @@
   }
 
   /* ---------- Request form ---------- */
+  const proofField = $('#proofField')
+  if (proofField) proofField.addEventListener('change', () => {
+    const tooBig = proofField.files[0] && proofField.files[0].size > 4 * 1024 * 1024
+    const message = tooBig ? 'That file is over 4 MB. Please choose a smaller screenshot or PDF.' : ''
+    proofField.setCustomValidity(message); $('#proofError').textContent = message
+  })
   const form = $('#requestForm')
   if (form) {
     const label = $('#contactLabel'), field = $('#contactField'), err = $('#formError')

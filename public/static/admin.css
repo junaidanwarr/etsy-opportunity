@@ -83,3 +83,4 @@ pre.code { background: var(--fg); color: #efe6d6; border-radius: 12px; padding: 
   .disc .edit { grid-column: 1 / -1; grid-template-columns: 1fr; }
 }
 .st.pending { background: var(--clay); color: #fff; border-color: var(--clay); } .st.active { color: var(--ok); } .st.expired, .st.rejected { color: var(--bad); }
+.proof { display: grid; gap: 6px; justify-items: start; } .proof img { max-width: 100%; max-height: 260px; border: 1px solid var(--line); border-radius: 10px; display: block; }

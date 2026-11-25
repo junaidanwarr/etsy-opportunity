@@ -61,7 +61,7 @@ describe('premium checkout', () => {
   after(() => t.close())
 
   test('a valid checkout creates a pending order, emails team and buyer, and shows the reference', async () => {
-    const res = await t.post('/premium/checkout', validCheckout({ transactionId: 'EP12345678', amount: '1' }))
+    const res = await t.checkout(validCheckout({ transactionId: 'EP12345678', amount: '1' }))
     assert.equal(res.status, 303)
     const location = res.headers.get('location')
     const ref = location.match(/ref=(PM-[A-Z2-9]{5})/)?.[1]
@@ -75,25 +75,25 @@ describe('premium checkout', () => {
     assert.ok(toTeam.text.includes('EP12345678'))
   })
   test('the amount always comes from the server, never the form', async () => {
-    const res = await t.post('/premium/checkout', validCheckout({ transactionId: 'EP-AMOUNT-1', amount: '1', amountPkr: '1' }))
+    const res = await t.checkout(validCheckout({ transactionId: 'EP-AMOUNT-1', amount: '1', amountPkr: '1' }))
     const ref = res.headers.get('location').match(/ref=(PM-\w+)/)[1]
     const cookie = await t.adminCookie()
     const { orders } = await (await t.get('/api/admin/premium-orders', { cookie })).json()
     assert.equal(orders.find(o => o.ref === ref).amountPkr, 6500)
   })
   test('a reused transaction ID is refused with 409', async () => {
-    await t.post('/premium/checkout', validCheckout({ transactionId: 'EP-DUP-777' }))
-    const res = await t.post('/premium/checkout', validCheckout({ transactionId: 'ep dup 777'.replace(/ /g, '-') }))
+    await t.checkout(validCheckout({ transactionId: 'EP-DUP-777' }))
+    const res = await t.checkout(validCheckout({ transactionId: 'ep dup 777'.replace(/ /g, '-') }))
     assert.equal(res.status, 409)
     assert.match(await res.text(), /already been used/)
   })
   test('invalid input gets a 400 with a helpful message', async () => {
-    const res = await t.post('/premium/checkout', validCheckout({ method: 'paypal', transactionId: 'EP-BAD-METHOD' }))
+    const res = await t.checkout(validCheckout({ method: 'paypal', transactionId: 'EP-BAD-METHOD' }))
     assert.equal(res.status, 400)
     assert.match(await res.text(), /payment method/i)
   })
   test('cross-site form posts are blocked', async () => {
-    const res = await t.post('/premium/checkout', validCheckout({ transactionId: 'EP-CSRF-001' }), { origin: 'https://evil.example' })
+    const res = await t.checkout(validCheckout({ transactionId: 'EP-CSRF-001' }), { origin: 'https://evil.example' })
     assert.equal(res.status, 403)
   })
   test('the thanks page only shows real references', async () => {
@@ -108,8 +108,8 @@ describe('premium checkout limits', () => {
   after(() => t.close())
 
   test('more than 5 checkouts an hour from one address are refused', async () => {
-    for (let i = 0; i < 5; i++) assert.equal((await t.post('/premium/checkout', validCheckout({ transactionId: `EP-RATE-00${i}` }))).status, 303)
-    assert.equal((await t.post('/premium/checkout', validCheckout({ transactionId: 'EP-RATE-999' }))).status, 429)
+    for (let i = 0; i < 5; i++) assert.equal((await t.checkout(validCheckout({ transactionId: `EP-RATE-00${i}` }))).status, 303)
+    assert.equal((await t.checkout(validCheckout({ transactionId: 'EP-RATE-999' }))).status, 429)
   })
 })
 
@@ -120,7 +120,7 @@ describe('checkout with no payment methods set', () => {
 
   test('the page says payments are not open yet and checkout is refused', async () => {
     assert.match(await (await t.get('/premium')).text(), /not open yet/i)
-    assert.equal((await t.post('/premium/checkout', validCheckout())).status, 503)
+    assert.equal((await t.checkout(validCheckout())).status, 503)
   })
 })
 
@@ -128,7 +128,7 @@ describe('admin premium orders', () => {
   let t, cookie, orderId, ref
   before(async () => {
     t = await startApp({ ...PAY_ENV, ...MAIL_ENV })
-    const res = await t.post('/premium/checkout', validCheckout({ transactionId: 'JC-ADMIN-01', method: 'jazzcash' }))
+    const res = await t.checkout(validCheckout({ transactionId: 'JC-ADMIN-01', method: 'jazzcash' }))
     ref = res.headers.get('location').match(/ref=(PM-\w+)/)[1]
     cookie = await t.adminCookie()
     orderId = (await (await t.get('/api/admin/premium-orders', { cookie })).json()).orders.find(o => o.ref === ref).id

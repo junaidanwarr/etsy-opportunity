@@ -14,6 +14,10 @@ export const PAY_ENV = {
 export const MAIL_ENV = { SMTP_HOST: 'smtp.test.invalid', SMTP_USER: 'robot', SMTP_PASS: 'secret', MAIL_FROM: 'robot@test.invalid', NOTIFY_EMAIL: 'team@test.invalid' }
 export const ADMIN_PASSWORD = 'test-admin-password'
 
+// Smallest valid-looking files: the server checks the leading bytes, not the name or browser-supplied type.
+export const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
+export const PDF = Buffer.from('%PDF-1.4 %%EOF')
+
 export async function startApp(env = {}) {
   const root = mkdtempSync(join(tmpdir(), 'etsscope-test-'))
   const sent = []
@@ -25,6 +29,12 @@ export async function startApp(env = {}) {
     base, sent, app,
     get: (path, headers = {}) => fetch(base + path, { headers, redirect: 'manual' }),
     post: (path, fields, headers = {}) => fetch(base + path, { method: 'POST', redirect: 'manual', headers: { 'content-type': 'application/x-www-form-urlencoded', ...headers }, body: new URLSearchParams(fields).toString() }),
+    checkout(fields, headers = {}, file = { data: PNG, name: 'proof.png', type: 'image/png' }) {
+      const form = new FormData()
+      for (const [k, v] of Object.entries(fields)) form.set(k, v)
+      if (file) form.set('proof', new Blob([file.data], { type: file.type }), file.name)
+      return fetch(base + '/premium/checkout', { method: 'POST', redirect: 'manual', headers, body: form })
+    },
     async adminCookie() {
       const res = await fetch(base + '/api/admin/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: ADMIN_PASSWORD }) })
       return String(res.headers.get('set-cookie')).split(';')[0]
