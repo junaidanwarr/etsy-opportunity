@@ -33,16 +33,16 @@ describe('premiumConfigFromEnv', () => {
     const c = premiumConfigFromEnv({ PAY_EASYPAISA_NUMBER: '03000000000', PAY_EASYPAISA_TITLE: 'Title', PAY_BANK_NAME: 'Bank only, no IBAN' })
     assert.deepEqual(c.methods.map(m => m.id), ['easypaisa'])
   })
-  test('offers bank, Easypaisa and JazzCash in that order when all are set', () => {
+  test('offers only Easypaisa and JazzCash, ignoring bank settings even when they are set', () => {
     const c = premiumConfigFromEnv(PAY_ENV)
-    assert.deepEqual(c.methods.map(m => m.id), ['bank', 'easypaisa', 'jazzcash'])
-    assert.deepEqual(c.methods.map(m => m.label), ['Bank transfer', 'Easypaisa', 'JazzCash'])
-    assert.ok(c.methods[0].details.some(([k, v]) => k === 'IBAN' && v === PAY_ENV.PAY_BANK_IBAN))
+    assert.deepEqual(c.methods.map(m => m.id), ['easypaisa', 'jazzcash'])
+    assert.deepEqual(c.methods.map(m => m.label), ['Easypaisa', 'JazzCash'])
+    assert.ok(c.methods[1].details.some(([k, v]) => k === 'JazzCash number' && v === PAY_ENV.PAY_JAZZCASH_NUMBER))
   })
 })
 
 describe('validateCheckout', () => {
-  const methods = ['bank', 'easypaisa', 'jazzcash']
+  const methods = ['easypaisa', 'jazzcash']
   const good = { name: 'Ayesha Khan', email: 'ayesha@example.com', whatsapp: '+92 300 1234567', method: 'easypaisa', transactionId: ' tx 9a8b-7c6d ', payerAccount: 'Ayesha 0300', consent: 'yes' }
   test('accepts a complete checkout and normalises the transaction ID', () => {
     const r = validateCheckout(good, methods)
@@ -91,7 +91,7 @@ describe('premium orders store', () => {
   const root = mkdtempSync(join(tmpdir(), 'etsscope-store-'))
   const db = openDatabase(root, { DATABASE_PATH: join(root, 'store.sqlite') })
   const orders = makePremiumOrders(db)
-  const base = { name: 'Ayesha', email: 'a@example.com', whatsapp: '+923001234567', method: 'bank', amountPkr: 6500, payerAccount: 'Ayesha' }
+  const base = { name: 'Ayesha', email: 'a@example.com', whatsapp: '+923001234567', method: 'easypaisa', amountPkr: 6500, payerAccount: 'Ayesha' }
   after(() => { db.close(); try { rmSync(root, { recursive: true, force: true }) } catch {} })
 
   test('creates a pending order with a PM- reference', async () => {

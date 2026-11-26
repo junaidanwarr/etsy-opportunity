@@ -25,7 +25,8 @@ describe('premium pages', () => {
     assert.equal(res.status, 200)
     const body = htmlText(await res.text())
     for (const b of PREMIUM_BENEFITS) assert.ok(body.includes(b), b)
-    for (const s of ['PKR 6,500', 'Bank transfer', 'Easypaisa', 'JazzCash', PAY_ENV.PAY_BANK_IBAN, PAY_ENV.PAY_EASYPAISA_TITLE, PAY_ENV.PAY_JAZZCASH_NUMBER]) assert.ok(body.includes(s), s)
+    for (const s of ['PKR 6,500', 'Pay by Easypaisa or JazzCash', 'Easypaisa', 'JazzCash', PAY_ENV.PAY_EASYPAISA_TITLE, PAY_ENV.PAY_JAZZCASH_NUMBER]) assert.ok(body.includes(s), s)
+    for (const s of ['Bank transfer', 'bank transfer', 'IBAN', PAY_ENV.PAY_BANK_IBAN, PAY_ENV.PAY_BANK_NAME]) assert.ok(!body.includes(s), `no ${s}`)
     assert.match(body, /<form[^>]+action="\/premium\/checkout"/)
     for (const f of ['name', 'email', 'whatsapp', 'method', 'transactionId', 'payerAccount', 'consent']) assert.match(body, new RegExp(`name="${f}"`), f)
   })
@@ -99,6 +100,18 @@ describe('premium checkout', () => {
   test('the thanks page only shows real references', async () => {
     const res = await t.get('/premium/thanks?ref=PM-NOPE2')
     assert.equal(res.status, 303)
+  })
+})
+
+describe('bank transfer removed', () => {
+  let t
+  before(async () => { t = await startApp({ ...PAY_ENV }) })
+  after(() => t.close())
+
+  test('a bank transfer can no longer be chosen', async () => {
+    const res = await t.checkout(validCheckout({ method: 'bank', transactionId: 'EP-BANK-GONE' }))
+    assert.equal(res.status, 400)
+    assert.match(await res.text(), /payment method/i)
   })
 })
 

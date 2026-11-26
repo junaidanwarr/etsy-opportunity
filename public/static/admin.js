@@ -195,7 +195,7 @@
     const seg = (id, text) => `<button data-of="${id}" aria-pressed="${state.orderFilter === id}">${text}</button>`
     const wa = o => { const digits = o.whatsapp.replace(/\D/g, '').replace(/^0/, '92'); return `<a class="btn tiny" href="https://wa.me/${digits}?text=${encodeURIComponent(`Hi ${o.name.split(' ')[0]}, this is ${site} about Premium order ${o.ref}.`)}" target="_blank" rel="noopener">WhatsApp ${esc(o.whatsapp)}</a>` }
     content().innerHTML = `<h2 class="title">Premium orders</h2>
-      <p class="muted" style="margin-bottom:12px">Compare the proof with the payment details, then check the payment in your bank, Easypaisa or JazzCash statement. A screenshot alone can be faked. Verifying starts a 4-month membership and emails the buyer.</p>
+      <p class="muted" style="margin-bottom:12px">Compare the proof with the payment details, then check the payment in your Easypaisa or JazzCash statement. A screenshot alone can be faked. Verifying starts a 4-month membership and emails the buyer.</p>
       <div class="toolbar"><div class="seg">${seg('pending', 'Pending')}${seg('active', 'Active')}${seg('expired', 'Expired')}${seg('rejected', 'Rejected')}${seg('all', 'All')}</div></div>
       ${list.length ? list.map(o => `<article class="req">
         <header><h4>${esc(o.name)} <span class="st ${esc(orderView(o))}">${esc(orderView(o))}</span></h4><span class="muted">${esc(o.ref)} · ${esc(when(o.createdAt))}</span></header>

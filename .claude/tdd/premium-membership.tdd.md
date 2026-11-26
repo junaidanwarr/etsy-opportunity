@@ -1,12 +1,12 @@
 # TDD evidence: Premium membership (PKR 6,500 / 4 months, manual-verify checkout)
 
-**Source plan:** the plan approved in chat on 23 Nov 2026 (homepage section + `/premium` page, bank / Easypaisa / JazzCash with manual admin verification, keyword and title sets for 30 listings a month). No `*.plan.md` file.
+**Source plan:** the plan approved in chat on 23 Nov 2026 (homepage section + `/premium` page, Easypaisa / JazzCash with manual admin verification (bank transfer removed 26 Nov 2026), keyword and title sets for 30 listings a month). No `*.plan.md` file.
 **Branch:** `feat/premium-membership`
 **Runner:** Node built-in `node:test` (`npm test`, `npm run test:coverage`), no new dependencies.
 
 ## User journeys
 1. As a visitor, I see the Premium benefits and the PKR 6,500 price on the homepage and on `/premium`.
-2. As a buyer, I pick Bank transfer, Easypaisa or JazzCash, pay to the account shown, submit my transaction ID and details, and get an order reference and an email.
+2. As a buyer, I pick Easypaisa or JazzCash, pay to the account shown, submit my transaction ID and details, and get an order reference and an email.
 3. As the owner, I verify or reject each order in `/admin`. Verifying starts a 4-month membership and emails the buyer.
 
 ## Checkpoints (all on `feat/premium-membership`)
